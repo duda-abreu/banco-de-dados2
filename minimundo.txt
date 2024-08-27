@@ -1,0 +1,81 @@
+# Modelo de Banco de Dados para MMORPG
+
+## 1. Definição do Minimundo
+
+### 1.1 Jogador
+- **Descrição**: Representa um personagem controlado por um jogador humano.
+- **Atributos**:
+  - ID: Identificador único do jogador.
+  - Nome: Nome do jogador.
+  - ClasseID: Identificador da classe do jogador.
+  - GuildaID: Identificador da guilda à qual o jogador pertence.
+  - Nivel: Nível do jogador.
+  - PontosXP: Pontos de experiência acumulados pelo jogador.
+  - DataCriacao: Data em que o jogador foi criado.
+  - UltimoLogin: Data do último login do jogador.
+
+### 1.2 Classe
+- **Descrição**: Representa um tipo de personagem com habilidades e características específicas.
+- **Atributos**:
+  - ID: Identificador único da classe.
+  - Nome: Nome da classe (e.g., Guerreiro, Mago).
+  - Descricao: Descrição detalhada da classe.
+  - PontosVida: Pontos de vida iniciais da classe.
+  - PontosMana: Pontos de mana iniciais da classe.
+  - PontosAtaque: Pontos de ataque iniciais da classe.
+
+### 1.3 Habilidade
+- **Descrição**: Representa uma habilidade ou poder que um jogador pode usar.
+- **Atributos**:
+  - ID: Identificador único da habilidade.
+  - Nome: Nome da habilidade (e.g., "Corte Poderoso").
+  - Descricao: Descrição detalhada da habilidade.
+  - ClasseID: Identificador da classe à qual a habilidade está associada.
+  - CustoMana: Custo de mana para usar a habilidade.
+  - Dano: Quantidade de dano que a habilidade pode causar.
+
+### 1.4 Item
+- **Descrição**: Representa um item que pode ser adquirido, usado ou equipado pelos jogadores.
+- **Atributos**:
+  - ID: Identificador único do item.
+  - Nome: Nome do item (e.g., "Espada de Fogo").
+  - Tipo: Tipo de item (e.g., Arma, Armadura, Poção).
+  - Valor: Valor monetário do item.
+  - Efeito: Efeito do item (por exemplo, aumentar pontos de vida, oferecer bônus de ataque).
+
+### 1.5 Missao
+- **Descrição**: Representa uma tarefa ou objetivo que os jogadores podem completar.
+- **Atributos**:
+  - ID: Identificador único da missão.
+  - Titulo: Título da missão.
+  - Descricao: Descrição detalhada da missão.
+  - RecompensaXP: Recompensa em pontos de experiência por completar a missão.
+  - Dificuldade: Nível de dificuldade da missão.
+
+### 1.6 Guilda
+- **Descrição**: Representa uma organização ou grupo de jogadores que se unem para alcançar objetivos comuns.
+- **Atributos**:
+  - ID: Identificador único da guilda.
+  - Nome: Nome da guilda.
+  - Descricao: Descrição da guilda.
+  - DataFundacao: Data em que a guilda foi fundada.
+  - Nivel: Nível da guilda, que pode influenciar benefícios e missões disponíveis.
+
+## 2. Modelagem Relacional
+
+### 2.1 Tabelas e Relacionamentos
+
+- **Tabela Jogador**:
+  ```sql
+  CREATE TABLE Jogador (
+      ID SERIAL PRIMARY KEY,
+      Nome VARCHAR(255) NOT NULL,
+      ClasseID INT,
+      GuildaID INT,
+      Nivel INT,
+      PontosXP INT,
+      DataCriacao DATE,
+      UltimoLogin TIMESTAMP,
+      FOREIGN KEY (ClasseID) REFERENCES Classe(ID),
+      FOREIGN KEY (GuildaID) REFERENCES Guilda(ID)
+  );
